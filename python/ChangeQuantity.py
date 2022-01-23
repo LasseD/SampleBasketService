@@ -4,6 +4,9 @@ import boto3
 client = boto3.client('dynamodb')
 
 def lambda_handler(event, context):
+    if 'customer_id' not in event:
+        event = event['queryStringParameters']
+
     # Get the input parameters from the event:
     customer_id = event['customer_id']
     set_nr = event['set_nr']
@@ -53,4 +56,7 @@ def lambda_handler(event, context):
 
     response = client.update_item(**args)
 
-    return response
+    return {
+        "statusCode": response["ResponseMetadata"]["HTTPStatusCode"],
+        "body": json.dumps(response)
+    }

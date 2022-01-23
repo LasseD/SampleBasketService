@@ -4,6 +4,9 @@ import boto3
 client = boto3.client('lambda')
  
 def lambda_handler(event, context):
+    if 'customer_id' not in event:
+        event = event['queryStringParameters']
+    
     customer_id = event['customer_id']
     set_nr = event['set_nr'];
 
@@ -20,4 +23,7 @@ def lambda_handler(event, context):
         Payload = json.dumps(ChangeQuantityParams)
     )
 
-    return response['ResponseMetadata']
+    return {
+        "statusCode": response["ResponseMetadata"]["HTTPStatusCode"],
+        "body": "Add To Basket Invoked"
+    }
