@@ -4,6 +4,7 @@ import boto3
 client = boto3.client('dynamodb')
 
 def lambda_handler(event, context):
+    # Ensure that the lambda function can be called using a GET method from an API gateway, as well as directly:
     if 'customer_id' not in event:
         event = event['queryStringParameters']
 

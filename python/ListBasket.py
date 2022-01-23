@@ -4,6 +4,7 @@ import json
 client = boto3.client('dynamodb')
 
 def lambda_handler(event, context):
+    # Ensure that the lambda function can be called using a GET method from an API gateway, as well as directly:
     if 'customer_id' not in event:
         event = event['queryStringParameters']
         
@@ -18,7 +19,7 @@ def lambda_handler(event, context):
     if 'Item' in response: # There is already a basket for the user:
         item = response['Item']
         content = item['content']['M']
-    else: # Otherwise, create a new basket:
+    else: # Otherwise, display an empty basket:
         content = {}
 
     # Compress the DyndamoDB entries from "N":val to just val:
