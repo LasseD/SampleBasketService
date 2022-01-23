@@ -15,7 +15,7 @@ def lambda_handler(event, context):
         Key={'customer_id':{'S':customer_id}}
         )
 
-    if 'Item' in response: # There is already a bbasket for the user:
+    if 'Item' in response: # There is already a basket for the user:
         item = response['Item']
         content = item['content']['M']
     else: # Otherwise, create a new basket:
